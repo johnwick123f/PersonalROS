@@ -6,6 +6,7 @@ import torch
 import matplotlib.pyplot as plt
 import cv2
 from repvit_sam import sam_model_registry, SamPredictor
+from torchvision.ops import box_convert
 grounding_model = load_model("groundingdino/config/GroundingDINO_SwinT_OGC.py", "weights/groundingdino_swint_ogc.pth")## LOADS GROUNDING MODEL
 sam_checkpoint = "../weights/repvit_sam.pt"
 sam = sam_model_registry["repvit"](checkpoint=sam_checkpoint).to("cuda:0").eval()## LOADS SEGMENT ANYTHING MODEL
@@ -53,14 +54,21 @@ def sam_dino(text, image):
   masks = []
   cimage = cv2.imread(image)
   cimage = cv2.cvtColor(cimage, cv2.COLOR_BGR2RGB)
+  source_h, source_w, _ = cimage.shape
   predictor.set_image(cimage)
-  for box in boxes:
+  boxes3 = boxes * torch.Tensor([source_w, source_h, source_w, source_h])
+  xyxy = box_convert(boxes=boxes3, in_fmt="cxcywh", out_fmt="xyxy").numpy()
+  for box in xyxy:
     box = np.array(box)
     mask = segment(box)### MIGHT HAVE TO CHANGE!!!!
     masks.append(mask)
-  return masks, boxes, logits, phrases, image_source
+  return masks, xyxy, logits, phrases, image_source
 
 
-    
-    
+
+## FEW COMMENTS
+# - takes 0.6 seconds for grounding dino with a few objects
+# - rep vit takes 0.1 seconds so nice
+# - not exactly great for hard objects
+# - Biggest open grounding model t is the best quality
   
