@@ -51,10 +51,11 @@ def grounding(text, image):
 def sam_dino(text, image):
   boxes, logits, phrases, image_source = grounding(text, image)
   masks = []
-  cimage = cv2.imread('images/picture1.jpg')
-  cimage = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+  cimage = cv2.imread(image)
+  cimage = cv2.cvtColor(cimage, cv2.COLOR_BGR2RGB)
   predictor.set_image(cimage)
   for box in boxes:
+    box = np.array(box)
     mask = segment(box)### MIGHT HAVE TO CHANGE!!!!
     masks.append(mask)
   return masks, boxes, logits, phrases, image_source
