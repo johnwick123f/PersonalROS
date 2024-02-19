@@ -36,4 +36,15 @@ LLAMA CPP PYTHON?
 - llava model for img2text
 - decent quality
 - takes time for encoding but then 30 tokens per second.
-  
+
+DEPTH ANYTHING HF
+- pretty small sized
+- accurate
+- 0.15 seconds?
+
+PATH ESTIMATION
+- self implemented
+- decently accurate
+- 0.1 seconds?
+
+probably more but idk
