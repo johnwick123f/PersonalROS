@@ -1,6 +1,7 @@
 ## NEEDS tqdm, torchvision==0.7.0?, not a lot of requirements
 # must clone this repository https://github.com/baegwangbin/surface_normal_uncertainty.git
 # also here is the model, https://huggingface.co/YaTharThShaRma999/PromptTest/resolve/main/scannet.pt
+# BE SURE TO CHANGE MODEL PATH
 import os
 import sys
 import numpy as np
@@ -16,7 +17,7 @@ import matplotlib.pyplot as plt
 ## makes it so I dont have to use argparse. kinda ok 
 class Params:
     def __init__(self):
-        self.architecture = 'GN'
+        self.architecture = 'BN'
         self.pretrained = 'scannet'
         self.sampling_ratio = 0.4
         self.importance_ratio = 0.7
