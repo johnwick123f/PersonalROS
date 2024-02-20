@@ -1,5 +1,6 @@
 ## NEEDS tqdm, torchvision==0.7.0?, not a lot of requirements
-# should clone this repository https://github.com/baegwangbin/surface_normal_uncertainty.git
+# must clone this repository https://github.com/baegwangbin/surface_normal_uncertainty.git
+# also here is the model, https://huggingface.co/YaTharThShaRma999/PromptTest/resolve/main/scannet.pt
 import os
 import sys
 import numpy as np
