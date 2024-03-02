@@ -1,3 +1,10 @@
+!git clone https://github.com/THU-MIG/RepViT.git
+%cd RepViT/sam/
+!pip install -e .
+!pip install rf-groundingdino
+!wget https://github.com/longzw1997/Open-GroundingDino/releases/download/v0.1.0/gdinot-1.8m-odvg.pth
+!wget https://huggingface.co/YaTharThShaRma999/PromptTest/resolve/main/swint.py
+!wget https://github.com/THU-MIG/RepViT/releases/download/v1.0/repvit_sam.pt
 ## SHOULD RESTART RUNTIME BEFORE EXECUTING CODE
 from groundingdino.util.inference import load_model, load_image, predict, annotate
 import cv2
