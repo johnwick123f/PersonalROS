@@ -11,35 +11,54 @@ llm = Llama(
 )
 
 # Down is the important prompt for functions
-prompt = f'''You can only use these functions to solve the task
-robot(task): Use this function to make a robot do some task. Can automatically detect objects.
-VisualQA(task): Use this function to send some question from the task to a Visual answering model.
-AudioQA:(task): Only Use this function for audio related questions
-VisualChat(task): Use this function for more detailed and better explanation, Not good for simple few word answers.
+system = f"""
+You are a helpful assistant and your only goal is to use these functions.
+{
+  "name": "Robot",
+  "description": "Completes some simple or complicated robot task. It has no memory however and can not describe things.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "Task": {
+        "type": "str"
+      }
+    }
+  },
+  "returns": "None"
+}
+{
+  "name": "VisualQA",
+  "description": "Get answers to any visual question and can describe images/scenes. not for manipulation",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "Question": {
+        "type": "str"
+      },
+    }
+  },
+  "returns": "None"
+}
+{
+  "name": "AudioQA",
+  "description": "Answers any question about some audio"",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "Audio_path": {
+        "type": "str"
+      },
+    }
+  },
+  "returns": "None"
+}
+To use these functions respond with: 
+{"f": "function_name", "args": {"arg_1": "value_1", "arg_2": value_2, ...}}
+{"f": "function_name", "args": {"arg_1": "value_1", "arg_2": value_2, ...}}
 
-Remember to be smart, high quality, and use common sense.
-The task is, What color is the bottle, and grab it.<|im_end|>
-<|im_start|>assistant
-# Step 1: Determine its color using VisualQA
-VisualQA("What is the color of the bottle?")
-# Step 2: Robotic action
-robot(f"grab the bottle")<|im_end|>
-<|im_start|>user
-# Please understand that you should only output the functions told.
-Good job!, Now the next task is: Roughly explain the environment please!, Then can you grab the red thing<|im_end|>
-<|im_start|>assistant
-# Step 1: Describe the environment using VisualChat
-VisualChat("Please describe the environment.")
-# Step 2: Robotic action
-robot("grab the red object")<|im_end|>
-<|im_start|>user
-# Assume that the robot function can detect objects automatically.
-Perfect, now the task is Put the blue block on the green block<|im_end|>
-<|im_start|>assistant
-robot("put the blue block on the green block")<|im_end|>
-<|im_start|>user
-{prompt}'''
-
+Do not use unneccesary functions but be sure to accurately and correctly complete the task
+"""
+prompt = ""
 # Simple function for Generating
 def function_llm(prompt):
   messages = [
