@@ -55,6 +55,7 @@ def function_llm_pipeline(prompt, system):
         print(response)
         prompts.append(f"{sentence}")
         responses.append(response)
+        yield response
         #print(sentence)
       else:
         prompt = format_prompt(sentence, prompts, responses, i)
@@ -63,5 +64,5 @@ def function_llm_pipeline(prompt, system):
         print(response)
         prompts.append(f"{sentence}")
         responses.append(response)
+        yield response
         #print(sentence)
-  return responses
