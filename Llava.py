@@ -35,12 +35,12 @@ def llava_gen(prompt, image):
 
   print()
   response = requests.post("http://0.0.0.0:8000/completion", headers=headers, json=json_data, stream=True)
-for chunk in response.iter_content(chunk_size=128):
-    content = chunk.decode().strip().split('\n\n')[0]
-    try:
-        content_split = content.split('data: ')
-        if len(content_split) > 1:
-            content_json = json.loads(content_split[1])
-            print(content_json["content"], end='', flush=True)
-    except json.JSONDecodeError:
-        break
+  for chunk in response.iter_content(chunk_size=128):
+      content = chunk.decode().strip().split('\n\n')[0]
+      try:
+          content_split = content.split('data: ')
+          if len(content_split) > 1:
+              content_json = json.loads(content_split[1])
+              print(content_json["content"], end='', flush=True)
+      except json.JSONDecodeError:
+          break
